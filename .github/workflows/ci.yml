@@ -34,4 +34,4 @@ jobs:
 
       - name: ✅ Run tests
         run: |
-          pytest ../tests/test_app_health.py
+          pytest ../podsage/tests/test_app_health.py
