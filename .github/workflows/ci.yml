@@ -14,11 +14,6 @@ jobs:
         working-directory: ./podsage/app
 
     steps:
-      - name: 🧭 Show current directory
-        run: |
-          pwd
-          ls -la
-
       - name: 🚚 Checkout code
         uses: actions/checkout@v3
 
@@ -30,6 +25,11 @@ jobs:
       - name: 📦 Install dependencies
         run: |
           pip install -r requirements.txt
+      
+      - name: 🧭 Show current directory
+        run: |
+          pwd
+          ls -la
 
       - name: ✅ Run tests
         run: |
