@@ -15,10 +15,10 @@ jobs:
 
     steps:
       - name: 🧭 Show current directory
-        uses: |
+        run: |
           pwd
           ls -la
-          
+
       - name: 🚚 Checkout code
         uses: actions/checkout@v3
 
