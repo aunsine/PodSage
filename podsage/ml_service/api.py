@@ -10,3 +10,7 @@ async def embed(request: Request):
     text = body.get("text", "")
     embedding = model.encode(text).tolist()
     return embedding
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "service": "ml_service"}
