@@ -114,3 +114,11 @@ jobs:
             Branch: `${{ github.ref_name }}`
             Commit: `${{ github.event.head_commit.message }}`
             By: `${{ github.actor }}`
+
+      - name: 🐳 Log in to GitHub Container Registry
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} --password-stdin
+
+      - name: 🏗️ Build and push ML service image
+        run: |
+          docker build -t ghcr.io/${{ secrets.GHCR_USERNAME }}/podsage-ml:latest podsage/ml_service
+          docker push ghcr.io/${{ secrets.GHCR_USERNAME }}/podsage-ml:latest
