@@ -1,9 +1,13 @@
-name: CI - FastAPI App
+name: CI - PodSage App
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
+
+env:
+  APP_DIR: podsage/app
+  TESTS_DIR: podsage/tests
 
 jobs:
   test-app:
@@ -11,27 +15,39 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./podsage/app
+        working-directory: ./
 
     steps:
-      - name: 🚚 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: 🐍 Set up Python
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install $APP_DIR/requirements.txt
           pip install pytest httpx
-      
-      - name: 🧭 Show current directory
+
+      - name: Show current directory and contents
         run: |
           pwd
           ls -la
 
-      - name: ✅ Run tests
+      - name: Run tests
         run: |
-          pytest ../../../../tests/test_app_health.py
+          pytest $TESTS_DIR/test_app_health.py
+
+      # Optional: Slack notification if test fails
+      - name: Notify Slack on failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: '#FF0000'
+          SLACK_MESSAGE: |
+            🚨 PodSage CI failed on ${{ github.repository }} @ ${{ github.ref }}
+            Commit: ${{ github.event.head_commit.message }}
+            Author: ${{ github.actor }}
