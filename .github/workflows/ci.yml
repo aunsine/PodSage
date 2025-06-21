@@ -28,7 +28,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install $APP_DIR/requirements.txt
+          pip install -r $APP_DIR/requirements.txt
           pip install pytest httpx
 
       - name: Show current directory and contents
