@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from podsage.ml_service.main import app  # Test ML Service health
+from podsage.ml_service.api import app  # Test ML Service health
 
 client = TestClient(app)
 
