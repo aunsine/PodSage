@@ -38,6 +38,7 @@ jobs:
 
       - name: Run tests
         run: |
+          print $TESTS_DIR/test_app_health.py
           pytest $TESTS_DIR/test_app_health.py
 
       # Optional: Slack notification if test fails
