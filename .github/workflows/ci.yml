@@ -7,7 +7,7 @@ on:
 
 env:
   APP_DIR: podsage/app
-  TESTS_DIR: podsage/tests
+  TESTS_DIR: tests
 
 jobs:
   test-app:
