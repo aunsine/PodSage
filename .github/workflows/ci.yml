@@ -43,16 +43,28 @@ jobs:
           pytest $TESTS_DIR/test_app_health.py
 
       # Optional: Slack notification if test fails
-      - name: Notify Slack on failure
+      - name: Podsage-App Notify Slack on failure
         if: failure()
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_COLOR: '#FF0000'
           SLACK_MESSAGE: |
-            🚨 PodSage CI failed on ${{ github.repository }} @ ${{ github.ref }}
+            🚨 PodSage App CI failed on ${{ github.repository }} @ ${{ github.ref }}
             Commit: ${{ github.event.head_commit.message }}
             Author: ${{ github.actor }}
+
+      - name: Podsage-App Slack notification – success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: '#2EB67D'
+          SLACK_MESSAGE: |
+            ✅ *PodSage App CI passed* for `${{ github.repository }}`
+            Branch: `${{ github.ref_name }}`
+            Commit: `${{ github.event.head_commit.message }}`
+            By: `${{ github.actor }}`
 
   test-ml:
     runs-on: ubuntu-latest
@@ -73,8 +85,32 @@ jobs:
       - name: Install ML dependencies
         run: |
           pip install -r $ML_DIR/requirements.txt
-          pip install pytest
+          pip install pytest httpx
           
       - name: ✅ Run ML service tests
         run: |
           pytest $ML_DIR/tests/test_model.py
+
+      - name: Podsage-ML Slack notification – failure
+        if: failure()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: '#FF0000'
+          SLACK_MESSAGE: |
+            ❌ *ML Service CI failed* on `${{ github.repository }}`
+            Branch: `${{ github.ref_name }}`
+            Commit: `${{ github.event.head_commit.message }}`
+            By: `${{ github.actor }}`
+
+      - name: Podsage-ML Slack notification – success
+        if: success()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_COLOR: '#2EB67D'
+          SLACK_MESSAGE: |
+            ✅ *ML Service CI passed* for `${{ github.repository }}`
+            Branch: `${{ github.ref_name }}`
+            Commit: `${{ github.event.head_commit.message }}`
+            By: `${{ github.actor }}`
