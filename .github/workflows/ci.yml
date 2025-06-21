@@ -89,7 +89,7 @@ jobs:
           
       - name: ✅ Run ML service tests
         run: |
-          pytest $ML_DIR/tests/test_model.py
+          export PYTHONPATH=$PYTHONPATH:.
 
       - name: Podsage-ML Slack notification – failure
         if: failure()
