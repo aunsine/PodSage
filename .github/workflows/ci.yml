@@ -7,6 +7,7 @@ on:
 
 env:
   APP_DIR: podsage/app
+  ML_DIR: podsage/ml_service
   TESTS_DIR: tests
 
 jobs:
@@ -52,3 +53,58 @@ jobs:
             🚨 PodSage CI failed on ${{ github.repository }} @ ${{ github.ref }}
             Commit: ${{ github.event.head_commit.message }}
             Author: ${{ github.actor }}
+
+
+  test-ml:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install ML dependencies
+        run: |
+          pip install -r $ML_DIR/requirements.txt
+          pip install pytest
+      - name: 
+        run: |
+          pytest $ML_DIR/tests/test_model.py
+
+
+
+
+
+
+  test-ml2:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./
+
+    steps:
+      - name: 🚚 Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: 📦 Install ML dependencies
+        run: |
+          pip install -r $ML_DIR/requirements.txt
+          pip install pytest
+#
+#     - name: ✅ Run ML service tests
+#        run: |
+#          pytest $ML_DIR/tests/test_model.py
