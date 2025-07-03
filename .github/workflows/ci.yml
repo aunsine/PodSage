@@ -47,7 +47,7 @@ jobs:
       
       - name: 🏗️ Build and push App image
         run: |
-          docker build -t ghcr.io/$${{secrets.GHCR_USERNAME}}/podsage-app:latest $APP_DIR
+          docker build -t ghcr.io/${{secrets.GHCR_USERNAME}}/podsage-app:latest $APP_DIR
           docker push ghcr.io/${{secrets.GHCR_USERNAME}}/podsage-app:latest
 
       # Optional: Slack notification if test fails
