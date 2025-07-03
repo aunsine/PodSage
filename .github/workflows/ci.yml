@@ -41,6 +41,14 @@ jobs:
         run: |
           echo $TESTS_DIR/test_app_health.py
           pytest $TESTS_DIR/test_app_health.py
+      
+      - name: 🐳 Log in to GitHub Container Registry
+        run: echo "${{secrets.GHCR_TOKEN}}" | docker login ghcr.io -u ${{secrets.GHCR_USERNAME}} --password-stdin
+      
+      - name: 🏗️ Build and push App image
+        run: |
+          docker build -t ghcr.io/$${{secrets.GHCR_USERNAME}}/podsage-app:latest $APP_DIR
+          docker push ghcr.io/${{secrets.GHCR_USERNAME}}/podsage-app:latest
 
       # Optional: Slack notification if test fails
       - name: Podsage-App Notify Slack on failure
