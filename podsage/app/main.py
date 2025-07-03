@@ -15,5 +15,5 @@ def health_check():
     return {"status": "ok", "service": "app"}
 
 def analyze(text: str):
-    response = requests.post("http://localhost:8001/predict", json={"text": text})
+    response = requests.post("http://localhost:5001/predict", json={"text": text})
     return response.json()

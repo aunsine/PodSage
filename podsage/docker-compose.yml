@@ -5,7 +5,7 @@ services:
     build: ./app
     container_name: podsage_app
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./app:/app
     
@@ -13,7 +13,7 @@ services:
     build: ./ml_service
     container_name: podsage_ml
     ports:
-      - "5000:5000"
+      - "5001:5000"
     volumes:
       - ./ml_service:/ml_service
 
