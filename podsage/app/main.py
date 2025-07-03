@@ -13,3 +13,7 @@ def semantic_search(query: str = Query(...)):
 @app.get("/health")
 def health_check():
     return {"status": "ok", "service": "app"}
+
+def analyze(text: str):
+    response = requests.post("http://localhost:8001/predict", json={"text": text})
+    return response.json()
